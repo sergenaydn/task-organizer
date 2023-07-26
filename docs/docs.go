@@ -122,6 +122,32 @@ const docTemplate = `{
                 }
             }
         },
+        "/tasks/": {
+            "delete": {
+                "description": "Delets All Data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Deletes All Tasks",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.Task"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
         "/tasks/{id}": {
             "get": {
                 "description": "Retrieves a task with the specified ID",
@@ -225,7 +251,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "localhost:8080",
-	BasePath:         "/",
+	BasePath:         "/tasks",
 	Schemes:          []string{},
 	Title:            "Task Organizator",
 	Description:      "Manage Your Tasks",

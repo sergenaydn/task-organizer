@@ -17,7 +17,7 @@ import (
 // @description Manage Your Tasks
 
 // @host localhost:8080
-// @BasePath /
+// @BasePath /tasks
 
 func main() {
 	r := gin.Default()

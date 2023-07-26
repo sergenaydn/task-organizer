@@ -1,4 +1,4 @@
-basePath: /
+basePath: /tasks
 definitions:
   models.Task:
     properties:
@@ -85,6 +85,23 @@ paths:
         "400":
           description: Bad Request
       summary: Create a new task
+      tags:
+      - Tasks
+  /tasks/:
+    delete:
+      consumes:
+      - application/json
+      description: Delets All Data
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Task'
+        "400":
+          description: Bad Request
+      summary: Deletes All Tasks
       tags:
       - Tasks
   /tasks/{id}:

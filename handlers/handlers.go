@@ -42,7 +42,6 @@ func Connection() {
 // @Success 200 {array} models.Task
 // @Failure 500 {object} nil
 // @Router /tasks [get]
-
 func GetAllTasks(c *gin.Context) {
 	resp, err := cli.Get(context.Background(), "tasks/", clientv3.WithPrefix())
 	if err != nil {
@@ -265,6 +264,16 @@ func DeleteTask(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Task deleted"})
 }
+
+// DeleteAllTasks godoc
+// @Summary Deletes All Tasks
+// @Description Delets All Data
+// @Tags Tasks
+// @Accept json
+// @Produce json
+// @Success 201 {object} models.Task
+// @Failure 400 {object} nil
+// @Router /tasks/ [delete]
 func DeleteAllTasks(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
