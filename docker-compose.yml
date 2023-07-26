@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  idea-generator:
+    container_name: taskgen_container
+    environment:
+      - ETCD_ENDPOINTS=http://127.0.0.1:2379
+    tty: true
+    build: .
+    ports:
+      - 8080:8080
+    restart: on-failure
+    volumes:
+            - .:/usr/src/app
