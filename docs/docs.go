@@ -233,13 +233,16 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "completed": {
+                    "description": "Completion status of the task",
                     "type": "boolean"
                 },
                 "id": {
+                    "description": "ID of the task (pointer to an integer to allow nil)",
                     "type": "string",
                     "example": "0"
                 },
                 "title": {
+                    "description": "Title of the task",
                     "type": "string"
                 }
             }

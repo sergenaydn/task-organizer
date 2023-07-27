@@ -3,11 +3,14 @@ definitions:
   models.Task:
     properties:
       completed:
+        description: Completion status of the task
         type: boolean
       id:
+        description: ID of the task (pointer to an integer to allow nil)
         example: "0"
         type: string
       title:
+        description: Title of the task
         type: string
     type: object
 host: localhost:8080

@@ -43,6 +43,7 @@ func Connection() {
 // @Failure 500 {object} nil
 // @Router /tasks [get]
 func GetAllTasks(c *gin.Context) {
+	// Fetch all tasks from the database
 	resp, err := cli.Get(context.Background(), "tasks/", clientv3.WithPrefix())
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch tasks"})
@@ -81,8 +82,8 @@ func GetAllTasks(c *gin.Context) {
 // @Failure 500 {object} nil
 // @Router /tasks/{id} [get]
 func GetTask(c *gin.Context) {
+	// Fetch the task ID from the URL path parameter
 	var task models.Task
-
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -117,6 +118,7 @@ func GetTask(c *gin.Context) {
 // @Failure 400 {object} nil
 // @Router /tasks [post]
 func CreateTask(c *gin.Context) {
+	// Bind the JSON request body to the task model
 	var task models.Task
 	if err := c.BindJSON(&task); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -139,6 +141,7 @@ func CreateTask(c *gin.Context) {
 		return
 	}
 
+	// Convert the task to JSON format
 	data, err := json.Marshal(task)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -153,20 +156,23 @@ func CreateTask(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
 	c.JSON(http.StatusCreated, task)
 }
 
-// CreateTask godoc
-// @Summary Create a new task
-// @Description Creates a new task with a unique ID if not provided
+// UpdateTask godoc
+// @Summary Update a task by ID
+// @Description Updates a task with the specified ID
 // @Tags Tasks
 // @Accept json
 // @Produce json
-// @Param id path int true "Task ID"
-// @Param task body models.Task true "Task object to be created"
-// @Success 201 {object} models.Task
+// @Param id path int true "Task ID" Format(int64)
+// @Param task body models.UpdateReq true "Task object with fields to be updated"
+// @Success 200 {object} models.UpdateReq
 // @Failure 400 {object} nil
-// @Router /tasks [put]
+// @Failure 404 {object} nil
+// @Failure 500 {object} nil
+// @Router /tasks/{id} [put]
 func UpdateTask(c *gin.Context) {
 	// Get the task ID from the URL path
 	taskID := c.Param("id")
@@ -235,7 +241,7 @@ func UpdateTask(c *gin.Context) {
 // @Failure 400 {object} nil
 // @Failure 404 {object} nil
 // @Failure 500 {object} nil
-// @Router /tasks/{id} [DELETE]
+// @Router /tasks/{id} [delete]
 func DeleteTask(c *gin.Context) {
 	taskID := c.Param("id")
 
@@ -267,7 +273,7 @@ func DeleteTask(c *gin.Context) {
 
 // DeleteAllTasks godoc
 // @Summary Deletes All Tasks
-// @Description Delets All Data
+// @Description Deletes All Data
 // @Tags Tasks
 // @Accept json
 // @Produce json
