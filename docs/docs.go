@@ -44,48 +44,6 @@ const docTemplate = `{
                     }
                 }
             },
-            "put": {
-                "description": "Creates a new task with a unique ID if not provided",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Tasks"
-                ],
-                "summary": "Create a new task",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Task ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Task object to be created",
-                        "name": "task",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Task"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/models.Task"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    }
-                }
-            },
             "post": {
                 "description": "Creates a new task with a unique ID if not provided",
                 "consumes": [
@@ -124,7 +82,7 @@ const docTemplate = `{
         },
         "/tasks/": {
             "delete": {
-                "description": "Delets All Data",
+                "description": "Deletes All Data",
                 "consumes": [
                     "application/json"
                 ],
@@ -177,6 +135,55 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/models.Task"
                         }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
+            "put": {
+                "description": "Updates a task with the specified ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Update a task by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Task ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Task object with fields to be updated",
+                        "name": "task",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.UpdateReq"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
                     },
                     "404": {
                         "description": "Not Found"
@@ -243,6 +250,19 @@ const docTemplate = `{
                 },
                 "title": {
                     "description": "Title of the task",
+                    "type": "string"
+                }
+            }
+        },
+        "models.UpdateReq": {
+            "type": "object",
+            "properties": {
+                "completed": {
+                    "description": "New completion status for the task update",
+                    "type": "boolean"
+                },
+                "title": {
+                    "description": "New title for the task update",
                     "type": "string"
                 }
             }

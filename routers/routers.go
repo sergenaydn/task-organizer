@@ -1,7 +1,8 @@
 package routers
 
 import (
-	"task-organizer/handlers"
+	"task-organizer-copy/handlers"
+	"task-organizer-copy/models"
 
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"
@@ -11,6 +12,18 @@ import (
 // IdeaRouter sets up the routes and handlers for the "task" API endpoints.
 // It takes a *gin.Engine as input to add the routes to.
 func IdeaRouter(r *gin.Engine) {
+	client := &models.Handler{}
+	cli, err := models.Connection()
+	if err != nil {
+		panic(err)
+	}
+	client.Client = cli
+
+	r.Use(func(c *gin.Context) {
+		c.Set("client", client)
+		c.Next()
+	})
+
 	// Setup the route for Swagger documentation.
 	// This serves the Swagger UI to visualize and interact with the API documentation.
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))

@@ -13,6 +13,15 @@ definitions:
         description: Title of the task
         type: string
     type: object
+  models.UpdateReq:
+    properties:
+      completed:
+        description: New completion status for the task update
+        type: boolean
+      title:
+        description: New title for the task update
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -62,39 +71,11 @@ paths:
       summary: Create a new task
       tags:
       - Tasks
-    put:
-      consumes:
-      - application/json
-      description: Creates a new task with a unique ID if not provided
-      parameters:
-      - description: Task ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Task object to be created
-        in: body
-        name: task
-        required: true
-        schema:
-          $ref: '#/definitions/models.Task'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/models.Task'
-        "400":
-          description: Bad Request
-      summary: Create a new task
-      tags:
-      - Tasks
   /tasks/:
     delete:
       consumes:
       - application/json
-      description: Delets All Data
+      description: Deletes All Data
       produces:
       - application/json
       responses:
@@ -158,6 +139,39 @@ paths:
         "500":
           description: Internal Server Error
       summary: Get a task by ID
+      tags:
+      - Tasks
+    put:
+      consumes:
+      - application/json
+      description: Updates a task with the specified ID
+      parameters:
+      - description: Task ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Task object with fields to be updated
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UpdateReq'
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      summary: Update a task by ID
       tags:
       - Tasks
 swagger: "2.0"

@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"task-organizer/docs"
-	"task-organizer/routers"
+	"task-organizer-copy/docs"
+	"task-organizer-copy/routers"
 
 	_ "github.com/swaggo/gin-swagger"
 
