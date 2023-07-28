@@ -3,9 +3,7 @@ package handlers
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
-	"sort"
 	"task-organizer-copy/models"
 
 	"github.com/gin-gonic/gin"
@@ -40,21 +38,14 @@ func GetAllTasks(c *gin.Context) {
 		return
 	}
 	var tasks []models.Task
-	for _, KV := range resp.Kvs {
+	for _, kv := range resp.Kvs {
 		var task models.Task
-		if err := json.Unmarshal(KV.Value, &task); err != nil {
-			// Print the value that failed to parse to help diagnose the issue
-			fmt.Printf("Failed to parse task: %s\n", string(KV.Value))
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to parse task"})
+		if err := json.Unmarshal([]byte(kv.Value), &task); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to parse taks"})
 			return
 		}
 		tasks = append(tasks, task)
 	}
-
-	// Sort the tasks by ID before returning
-	sort.Slice(tasks, func(i, j int) bool {
-		return *tasks[i].ID < *tasks[j].ID
-	})
 
 	c.JSON(http.StatusOK, tasks)
 }

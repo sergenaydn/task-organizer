@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
-	"strconv"
 	"task-organizer-copy/models"
 	"time"
 
@@ -34,7 +33,6 @@ func CreateTask(c *gin.Context) {
 		return
 	}
 
-	// Bind the JSON request body to the task model
 	var task models.Task
 	if err := c.BindJSON(&task); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -42,14 +40,13 @@ func CreateTask(c *gin.Context) {
 	}
 
 	// Check if the request contains an ID
-	if task.ID != nil {
+	if task.ID != "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Manual ID entry is not allowed"})
 		return
 	}
 
 	// Generate a unique ID using the GenerateUniqueID function
-	id := models.GenerateUniqueID()
-	task.ID = &id
+	task.ID = models.GenerateUniqueID()
 
 	// Check if the Title is empty
 	if task.Title == "" {
@@ -57,7 +54,6 @@ func CreateTask(c *gin.Context) {
 		return
 	}
 
-	// Convert the task to JSON format
 	data, err := json.Marshal(task)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -67,11 +63,10 @@ func CreateTask(c *gin.Context) {
 	defer cancel()
 
 	// Store the task in the database with the generated ID
-	_, err = h.Client.Put(ctx, "tasks/"+strconv.Itoa(*task.ID), string(data))
+	_, err = h.Client.Put(ctx, "tasks/"+task.ID, string(data))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-
 	c.JSON(http.StatusCreated, task)
 }

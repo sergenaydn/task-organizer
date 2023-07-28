@@ -15,7 +15,7 @@ import (
 // @Tags Tasks
 // @Accept json
 // @Produce json
-// @Param id path int true "Task ID" Format(int64)
+// @Param id path string true "Task ID" Format(int64)
 // @Param task body models.UpdateReq true "Task object with fields to be updated"
 // @Success 200 {object} models.UpdateReq
 // @Failure 400 {object} nil
@@ -23,7 +23,7 @@ import (
 // @Failure 500 {object} nil
 // @Router /tasks/{id} [put]
 func UpdateTask(c *gin.Context) {
-	client, ok := c.Get("client")
+	client, ok := c.Get("handler")
 	if !ok {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch handler"})
 		return
@@ -36,6 +36,11 @@ func UpdateTask(c *gin.Context) {
 	}
 	// Get the task ID from the URL path
 	taskID := c.Param("id")
+
+	if taskID != c.Param("id") {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Manual ID entry is not allowed"})
+		return
+	}
 
 	// Fetch the existing task from the database
 	resp, err := h.Client.Get(context.Background(), "tasks/"+taskID)
@@ -87,5 +92,5 @@ func UpdateTask(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, taskID)
+	c.JSON(http.StatusOK, updateReq)
 }
