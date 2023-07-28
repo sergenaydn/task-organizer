@@ -1,7 +1,6 @@
 package models
 
 import (
-	"log"
 	"time"
 
 	"github.com/google/uuid"
@@ -25,31 +24,39 @@ type Handler struct {
 	Client *clientv3.Client
 }
 
-// GenerateUniqueID generates a unique ID for a new task using UUID.
-func GenerateUniqueID() string {
-	return uuid.New().String()
-}
-
-// Connection2379 creates a client for the first etcd member using port 2379
-func Connection2379() (*clientv3.Client, error) {
-	cli, err := clientv3.New(clientv3.Config{
+// Init initializes two etcd clients for different endpoints and returns their handlers.
+// It creates and configures etcd clients for the specified endpoints.
+// Returns handler1, handler2, and any error encountered during client creation.
+func Init() (*Handler, *Handler, error) {
+	// Create a client for the first etcd member (using port 2379)
+	cli1, err := clientv3.New(clientv3.Config{
 		Endpoints:   []string{"http://localhost:2379"},
 		DialTimeout: 5 * time.Second,
 	})
 	if err != nil {
-		log.Fatal("Failed to connect to etcd", err)
+		cli1.Close()
+		return nil, nil, err
 	}
-	return cli, nil
-}
 
-// Connection2380 creates a client for the second etcd member using port 2380
-func Connection2380() (*clientv3.Client, error) {
-	cli, err := clientv3.New(clientv3.Config{
+	// Create a client for the second etcd member (using port 2380)
+	cli2, err := clientv3.New(clientv3.Config{
 		Endpoints:   []string{"http://localhost:2380"},
 		DialTimeout: 5 * time.Second,
 	})
 	if err != nil {
-		return nil, err
+		cli2.Close()
+		return nil, nil, err
 	}
-	return cli, nil
+
+	// Create handlers for each client
+	handler1 := &Handler{Client: cli1}
+	handler2 := &Handler{Client: cli2}
+
+	// Return the handlers for the two etcd clients and no error
+	return handler1, handler2, nil
+}
+
+// GenerateUniqueID generates a unique ID for a new task using UUID.
+func GenerateUniqueID() string {
+	return uuid.New().String()
 }

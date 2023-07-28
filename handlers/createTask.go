@@ -18,6 +18,7 @@ import (
 // @Produce json
 // @Param task body models.Task true "Task object to be created"
 // @Success 201 {object} models.Task
+// @Failure 500 {object} nil
 // @Failure 400 {object} nil
 // @Router /tasks [post]
 func CreateTask(c *gin.Context) {
@@ -41,7 +42,7 @@ func CreateTask(c *gin.Context) {
 
 	// Check if the request contains an ID
 	if task.ID != "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Manual ID entry is not allowed"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Manual ID entry is not allowed"}) // Reject request with manual ID entry
 		return
 	}
 
@@ -50,7 +51,7 @@ func CreateTask(c *gin.Context) {
 
 	// Check if the Title is empty
 	if task.Title == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Idea and owner cannot be empty"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Title cannot be empty"}) // Reject request with empty title
 		return
 	}
 

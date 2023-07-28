@@ -15,7 +15,7 @@ import (
 // @Tags Tasks
 // @Accept json
 // @Produce json
-// @Param id path int true "Task ID" Format(int64)
+// @Param id path string true "Task ID" Format(int64)
 // @Success 200 {object} models.Task
 // @Failure 400 {object} nil
 // @Failure 404 {object} nil

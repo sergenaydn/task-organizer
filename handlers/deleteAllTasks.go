@@ -16,7 +16,7 @@ import (
 // @Accept json
 // @Produce json
 // @Success 201 {object} models.Task
-// @Failure 400 {object} nil
+// @Failure 500 {object} nil
 // @Router /tasks/ [delete]
 func DeleteAllTasks(c *gin.Context) {
 
@@ -54,5 +54,5 @@ func DeleteAllTasks(c *gin.Context) {
 		}
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "All tasks deleted"})
+	c.JSON(http.StatusCreated, gin.H{"message": "All tasks deleted"})
 }

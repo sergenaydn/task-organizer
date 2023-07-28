@@ -121,7 +121,7 @@ const docTemplate = `{
                 "summary": "Get a task by ID",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "format": "int64",
                         "description": "Task ID",
                         "name": "id",
@@ -158,7 +158,7 @@ const docTemplate = `{
                 "summary": "Update a task by ID",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "format": "int64",
                         "description": "Task ID",
                         "name": "id",
@@ -207,7 +207,7 @@ const docTemplate = `{
                 "summary": "Delete a task by ID",
                 "parameters": [
                     {
-                        "type": "integer",
+                        "type": "string",
                         "format": "int64",
                         "description": "Task ID",
                         "name": "id",
@@ -244,9 +244,8 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "id": {
-                    "description": "ID of the task (pointer to an integer to allow nil)",
-                    "type": "string",
-                    "example": "0"
+                    "description": "ID of the task (string format)",
+                    "type": "string"
                 },
                 "title": {
                     "description": "Title of the task",

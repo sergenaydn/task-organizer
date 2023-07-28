@@ -12,21 +12,11 @@ import (
 // IdeaRouter sets up the routes and handlers for the "task" API endpoints.
 // It takes a *gin.Engine as input to add the routes to.
 func IdeaRouter(r *gin.Engine) {
-	// Create a client for the first etcd member (using port 2379)
-	client1, err := models.Connection2379()
+	// Initialize the handlers for the etcd clients
+	handler1, handler2, err := models.Init()
 	if err != nil {
 		panic(err)
 	}
-
-	// Create a client for the second etcd member (using port 2380)
-	client2, err := models.Connection2380()
-	if err != nil {
-		panic(err)
-	}
-
-	// Create handlers for each client
-	handler1 := &models.Handler{Client: client1}
-	handler2 := &models.Handler{Client: client2}
 
 	// Setup the route for Swagger documentation.
 	// This serves the Swagger UI to visualize and interact with the API documentation.

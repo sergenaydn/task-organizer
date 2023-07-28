@@ -37,11 +37,6 @@ func UpdateTask(c *gin.Context) {
 	// Get the task ID from the URL path
 	taskID := c.Param("id")
 
-	if taskID != c.Param("id") {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Manual ID entry is not allowed"})
-		return
-	}
-
 	// Fetch the existing task from the database
 	resp, err := h.Client.Get(context.Background(), "tasks/"+taskID)
 	if err != nil {
