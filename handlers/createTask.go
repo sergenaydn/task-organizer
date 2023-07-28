@@ -22,7 +22,7 @@ import (
 // @Failure 400 {object} nil
 // @Router /tasks [post]
 func CreateTask(c *gin.Context) {
-	client, ok := c.Get("client")
+	client, ok := c.Get("handler")
 	if !ok {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch handler"})
 		return
@@ -33,6 +33,7 @@ func CreateTask(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid handler type"})
 		return
 	}
+
 	// Bind the JSON request body to the task model
 	var task models.Task
 	if err := c.BindJSON(&task); err != nil {

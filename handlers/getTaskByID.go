@@ -25,7 +25,7 @@ import (
 func GetTask(c *gin.Context) {
 	// Fetch the task ID from the URL path parameter
 	var task models.Task
-	client, ok := c.Get("client")
+	client, ok := c.Get("handler")
 	if !ok {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch handler"})
 		return

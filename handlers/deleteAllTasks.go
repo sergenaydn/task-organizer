@@ -20,7 +20,7 @@ import (
 // @Router /tasks/ [delete]
 func DeleteAllTasks(c *gin.Context) {
 
-	client, ok := c.Get("client")
+	client, ok := c.Get("handler")
 	if !ok {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch handler"})
 		return
