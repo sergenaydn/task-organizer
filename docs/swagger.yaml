@@ -67,6 +67,8 @@ paths:
             $ref: '#/definitions/models.Task'
         "400":
           description: Bad Request
+        "500":
+          description: Internal Server Error
       summary: Create a new task
       tags:
       - Tasks
@@ -82,8 +84,8 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/models.Task'
-        "400":
-          description: Bad Request
+        "500":
+          description: Internal Server Error
       summary: Deletes All Tasks
       tags:
       - Tasks

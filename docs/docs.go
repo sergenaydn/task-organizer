@@ -76,6 +76,9 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
                     }
                 }
             }
@@ -100,8 +103,8 @@ const docTemplate = `{
                             "$ref": "#/definitions/models.Task"
                         }
                     },
-                    "400": {
-                        "description": "Bad Request"
+                    "500": {
+                        "description": "Internal Server Error"
                     }
                 }
             }

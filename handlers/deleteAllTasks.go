@@ -3,7 +3,7 @@ package handlers
 import (
 	"context"
 	"net/http"
-	"task-organizer-copy/models"
+	"task-organizer/models"
 
 	"github.com/gin-gonic/gin"
 	clientv3 "go.etcd.io/etcd/client/v3"

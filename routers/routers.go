@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"task-organizer-copy/handlers"
-	"task-organizer-copy/models"
+	"task-organizer/handlers"
+	"task-organizer/models"
 
 	"github.com/gin-gonic/gin"
 	swaggerfiles "github.com/swaggo/files"

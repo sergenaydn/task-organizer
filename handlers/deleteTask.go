@@ -3,7 +3,7 @@ package handlers
 import (
 	"context"
 	"net/http"
-	"task-organizer-copy/models"
+	"task-organizer/models"
 	"time"
 
 	"github.com/gin-gonic/gin"
